@@ -8,6 +8,7 @@ import com.mta.dogwalkerserver.repo.DogWalkerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.List;
 
 @RestController
