@@ -1,6 +1,7 @@
 package com.mta.dogwalkerserver.controller;
 
 
+import com.mta.dogwalkerserver.models.Address;
 import com.mta.dogwalkerserver.models.DogWalker;
 import com.mta.dogwalkerserver.repo.AddressRepo;
 import com.mta.dogwalkerserver.repo.DogWalkerRepo;
@@ -24,9 +25,24 @@ public class ApiControllers {
     }
 
     @GetMapping(value = "/getDogWalkers")
-    public List<DogWalker> getUsers(){
+    public List<DogWalker> getDogWalkers(){
         return dogWalkerRepo.findAll();
     }
+
+    @GetMapping(value = "/getDogWalkerById/{id}")
+    public DogWalker getDogWalkerById(@PathVariable int id){
+        DogWalker dogWalker = dogWalkerRepo.findById(id).get();
+        return dogWalker;
+    }
+
+    @GetMapping(value = "/getAddress/{id}")
+    public String getAddress(@PathVariable int id){
+        DogWalker dogWalker = dogWalkerRepo.findById(id).get();
+        Address address = dogWalker.getAddress_Id();
+//        System.out.println(address.getGeoHash());
+        return address.getGeoHashLocation();
+    }
+
 
     @PostMapping(value = "/save")
     public String saveDogWalker(@RequestBody DogWalker dogWalker){
@@ -34,7 +50,7 @@ public class ApiControllers {
         return "save...";
     }
 
-    @PutMapping(value = "update/{id}")
+    @PutMapping(value = "/update/{id}")
     public String updateUser(@PathVariable int id,@RequestBody DogWalker dogWalker){
         DogWalker updateDogWalker = dogWalkerRepo.findById(id).get();
         updateDogWalker.setAddress_Id(dogWalker.getAddress_Id());

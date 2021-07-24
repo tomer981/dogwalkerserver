@@ -1,10 +1,10 @@
 package com.mta.dogwalkerserver.models;
 
-import org.elasticsearch.geometry.utils.Geohash;
-import org.apache.lucene.util.GeoHashUtils;
+//https://stackoverflow.com/questions/15786129/converting-java-objects-to-json-with-jackson
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 import javax.persistence.*;
-
 
 //5.2
 @Entity
@@ -30,9 +30,8 @@ public class Address {
     @Column(name = "GEO_HASH_LOCATION")
     private String geoHashLocation;
 
-    pri
-
-
+//    @Transient
+//    private GeoHash geoHash;
 
 
     public Address() {
@@ -45,6 +44,18 @@ public class Address {
         this.zipCode = zipCode;
         this.geoHashLocation = geoHashLocation;
     }
+
+//    public GeoHash getGeoHash() {
+//        return GeoHash.fromGeohashString(geoHashLocation);
+//    }
+//
+//    public void setGeoHash(GeoHash geoHash) {
+//        this.geoHash = geoHash;
+//    }
+//
+//    public void setGeoHash(String geoHash) {
+//        setGeoHash(GeoHash.fromGeohashString(geoHash));
+//    }
 
     public String getGeoHashLocation() {
         return geoHashLocation;
