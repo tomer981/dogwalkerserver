@@ -2,8 +2,9 @@ package com.mta.dogwalkerserver.controller;
 
 
 import com.mta.dogwalkerserver.models.Address;
+import com.mta.dogwalkerserver.models.DogOwner;
 import com.mta.dogwalkerserver.models.DogWalker;
-import com.mta.dogwalkerserver.repo.AddressRepo;
+import com.mta.dogwalkerserver.repo.DogOwnerRepo;
 import com.mta.dogwalkerserver.repo.DogWalkerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +12,18 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Date;
 import java.util.List;
 
-@RestController
 //https://www.baeldung.com/spring-requestmapping
 //@RequestMapping("/api")
+@RestController
 public class ApiControllers {
 
     @Autowired
     private DogWalkerRepo dogWalkerRepo;
-    private AddressRepo addressRepo;
+
+    @Autowired
+    private DogOwnerRepo dogOwnerRepo;
+
+//    private DogWalker dogWalker1 = null;
 
     @GetMapping(value = "/")
     public String getPage(){
@@ -28,6 +33,11 @@ public class ApiControllers {
     @GetMapping(value = "/getDogWalkers")
     public List<DogWalker> getDogWalkers(){
         return dogWalkerRepo.findAll();
+    }
+
+    @GetMapping(value = "/getDogOwners")
+    public List<DogOwner> getDownerOwner(){
+        return dogOwnerRepo.findAll();
     }
 
     @GetMapping(value = "/getDogWalkerById/{id}")
@@ -45,9 +55,21 @@ public class ApiControllers {
     }
 
 
-    @PostMapping(value = "/save")
+    @PostMapping(value = "/saveDogWalker")
     public String saveDogWalker(@RequestBody DogWalker dogWalker){
         dogWalkerRepo.save(dogWalker);
+//        if (dogWalker1 == null){
+//            dogWalker1 = dogWalker;
+//        }
+//        else{
+//            dogWalker1.getContact().add(dogWalker1);
+//        }
+        return "save...";
+    }
+
+    @PostMapping(value = "/saveDogOwner")
+    public String saveDogWalker(@RequestBody DogOwner dogOwner){
+        dogOwnerRepo.save(dogOwner);
         return "save...";
     }
 
