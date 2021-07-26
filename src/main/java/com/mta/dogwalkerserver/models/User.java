@@ -28,20 +28,14 @@ public abstract class User {
     @Column(name = "PHONE")
     private String phone;
 
-    @OneToOne(cascade= CascadeType.ALL)
-    @JoinColumn(name = "address_Id")
-    private Address address_Id;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "GENDER")
     private Gender gender;
 
-
-
     //CONSTRUCTOR
     public User() {
     }
-    public User(String firstName, String lastName, String userName, String email, String aboutMyself, Date birthDay, String phone, Address address_Id, Gender gender) {
+    public User(String firstName, String lastName, String userName, String email, String aboutMyself, Date birthDay, String phone, Gender gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
@@ -49,7 +43,6 @@ public abstract class User {
         this.aboutMyself = aboutMyself;
         this.birthDay = birthDay;
         this.phone = phone;
-        this.address_Id = address_Id;
         this.gender = gender;
     }
 
@@ -95,12 +88,6 @@ public abstract class User {
     }
     public void setBirthDay(Date birthDay) {
         this.birthDay = birthDay;
-    }
-    public Address getAddress_Id() {
-        return address_Id;
-    }
-    public void setAddress_Id(Address address_Id) {
-        this.address_Id = address_Id;
     }
     public String getPhone() {
         return phone;

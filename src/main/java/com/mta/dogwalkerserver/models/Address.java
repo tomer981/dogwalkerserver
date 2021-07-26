@@ -3,6 +3,7 @@ package com.mta.dogwalkerserver.models;
 //https://stackoverflow.com/questions/15786129/converting-java-objects-to-json-with-jackson
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.xiaoleilu.hutool.geo.GeoHash;
 
 import javax.persistence.*;
 
@@ -30,13 +31,15 @@ public class Address {
     @Column(name = "GEO_HASH_LOCATION")
     private String geoHashLocation;
 
+
 //    @Transient
+//    @Column(name = "GEO_HASH")
 //    private GeoHash geoHash;
 
 
+    //CONSTRUCTOR
     public Address() {
     }
-
     public Address(String city, String streetName, int houseNumber, int zipCode, String geoHashLocation) {
         this.city = city;
         this.streetName = streetName;
@@ -57,45 +60,38 @@ public class Address {
 //        setGeoHash(GeoHash.fromGeohashString(geoHash));
 //    }
 
+    //getter and setter
     public String getGeoHashLocation() {
         return geoHashLocation;
     }
-
     public void setGeoHashLocation(String geoHashLocation) {
         this.geoHashLocation = geoHashLocation;
     }
-
     public String getCity() {
         return city;
     }
-
     public void setCity(String city) {
         this.city = city;
     }
-
     public String getStreetName() {
         return streetName;
     }
-
     public void setStreetName(String streetName) {
         this.streetName = streetName;
     }
-
     public int getHouseNumber() {
         return houseNumber;
     }
-
     public void setHouseNumber(int houseNumber) {
         this.houseNumber = houseNumber;
     }
-
     public int getZipCode() {
         return zipCode;
     }
-
     public void setZipCode(int zipCode) {
         this.zipCode = zipCode;
     }
+
 
 
     @Override

@@ -4,12 +4,15 @@ package com.mta.dogwalkerserver.controller;
 import com.mta.dogwalkerserver.models.Address;
 import com.mta.dogwalkerserver.models.DogOwner;
 import com.mta.dogwalkerserver.models.DogWalker;
+import com.mta.dogwalkerserver.models.Image;
 import com.mta.dogwalkerserver.repo.DogOwnerRepo;
 import com.mta.dogwalkerserver.repo.DogWalkerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Date;
+import java.io.IOException;
 import java.util.List;
 
 //https://www.baeldung.com/spring-requestmapping
@@ -23,7 +26,8 @@ public class ApiControllers {
     @Autowired
     private DogOwnerRepo dogOwnerRepo;
 
-//    private DogWalker dogWalker1 = null;
+
+    private DogWalker dogWalker1 = null;
 
     @GetMapping(value = "/")
     public String getPage(){
@@ -34,6 +38,8 @@ public class ApiControllers {
     public List<DogWalker> getDogWalkers(){
         return dogWalkerRepo.findAll();
     }
+
+//    TODO: getContact of DogWalker/DogOwner by DogOwner/DogWalker id
 
     @GetMapping(value = "/getDogOwners")
     public List<DogOwner> getDownerOwner(){
@@ -58,18 +64,15 @@ public class ApiControllers {
     @PostMapping(value = "/saveDogWalker")
     public String saveDogWalker(@RequestBody DogWalker dogWalker){
         dogWalkerRepo.save(dogWalker);
-//        if (dogWalker1 == null){
-//            dogWalker1 = dogWalker;
-//        }
-//        else{
-//            dogWalker1.getContact().add(dogWalker1);
-//        }
         return "save...";
     }
 
     @PostMapping(value = "/saveDogOwner")
     public String saveDogWalker(@RequestBody DogOwner dogOwner){
         dogOwnerRepo.save(dogOwner);
+        DogWalker updateDogWalker = dogWalkerRepo.findById(1).get();
+        updateDogWalker.getContact().add(dogOwner);
+        dogWalkerRepo.save(updateDogWalker);
         return "save...";
     }
 
@@ -89,4 +92,32 @@ public class ApiControllers {
         dogWalkerRepo.delete(dogWalker);
         return "deleted " + id;
     }
+
+
+
+    @PostMapping("/uploadImage/{id}")
+    public String uploadDogWalkerImage(@RequestParam("imageFile")MultipartFile imageFile,@PathVariable int id){
+        DogWalker dogWalker = dogWalkerRepo.findById(id).get();
+        Image dbImage = new Image();
+
+        dbImage.setName(imageFile.getName());
+        try {
+            dbImage.setContent(imageFile.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        dogWalker.setImage_Id(dbImage);
+        dogWalkerRepo.save(dogWalker);
+        return "save";
+    }
+
+    @GetMapping(path = "/image/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] downloadImage(@PathVariable int id) {
+        DogWalker dogWalker = dogWalkerRepo.getById(id);
+        byte[] image = dogWalker.getImage_Id().getContent();
+
+        return image;
+    }
+
 }

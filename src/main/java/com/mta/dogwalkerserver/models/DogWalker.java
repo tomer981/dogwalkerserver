@@ -1,17 +1,18 @@
 package com.mta.dogwalkerserver.models;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-////Moreover, we can create our index in the different schema by specifying the schema's name in the name:
-//@Index(name = "schema2.fn_index", columnList = "firstName")
+
 
 
 @Entity
 @Table(name = "dog_walker", schema = "dog_walker_app")
+@Access(value=AccessType.FIELD)
 public class DogWalker extends User {
 
     @Id
@@ -22,16 +23,36 @@ public class DogWalker extends User {
     @Column(name = "HOUR_SALARY")
     private int hourSalary;
 
-//    @OneToMany(cascade=CascadeType.ALL)
-//    @JoinColumn(name = "CONTACT_DogOwner", nullable=false)
-//    private Set<DogWalker> contact = new HashSet();
+    //  https://www.baeldung.com/jackson-ignore-properties-on-serialization
+    @OneToMany(cascade=CascadeType.ALL,orphanRemoval = true )
+    @JoinColumn(name = "CONTACT_DogOwner")
+    @JsonIgnore
+    private Set<DogOwner> contact = new HashSet<DogOwner>();
+
+    @OneToOne(cascade= CascadeType.ALL)
+    @JoinColumn(name = "address_Id")
+    private Address address_Id;
+
+    @OneToOne(cascade= CascadeType.ALL)
+    @JoinColumn(name = "image_Id")
+    private Image image_Id;
+
+//    @Transient
+//    @Formula("address_Id.getGeoHashLocation()")
+//    @Column(name = "GEO_HASH_LOCATION")
+//    private String geoHashLocation;
+
 
     //CONSTRUCTOR
     public DogWalker() {
     }
-    public DogWalker(String firstName, String lastName, String userName, String email, String aboutMyself, Date birthDay, String phone, Address address_Id, Gender gender, int hourSalary) {
-        super(firstName, lastName, userName, email, aboutMyself, birthDay, phone, address_Id, gender);
+
+    public DogWalker(String firstName, String lastName, String userName, String email, String aboutMyself, Date birthDay, String phone, Gender gender, int hourSalary, Set<DogOwner> contact, Address address_Id, Image image_Id) {
+        super(firstName, lastName, userName, email, aboutMyself, birthDay, phone, gender);
         this.hourSalary = hourSalary;
+        this.contact = contact;
+        this.address_Id = address_Id;
+        this.image_Id = image_Id;
     }
 
     //getter and setter
@@ -41,10 +62,22 @@ public class DogWalker extends User {
     public void setHourSalary(int hourSalary) {
         this.hourSalary = hourSalary;
     }
-//    public Set<DogWalker> getContact() {
-//        return contact;
-//    }
-//    public void setContact(Set<DogWalker> contact) {
-//        this.contact = contact;
-//    }
+    public Set<DogOwner> getContact() {
+        return contact;
+    }
+    public void setContact(Set<DogOwner> contact) {
+        this.contact = contact;
+    }
+    public Address getAddress_Id() {
+        return address_Id;
+    }
+    public void setAddress_Id(Address address_Id) {
+        this.address_Id = address_Id;
+    }
+    public Image getImage_Id() {
+        return image_Id;
+    }
+    public void setImage_Id(Image image_Id) {
+        this.image_Id = image_Id;
+    }
 }
