@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 //https://www.baeldung.com/spring-requestmapping
@@ -120,4 +121,12 @@ public class ApiControllers {
         return image;
     }
 
+    @PostMapping(path = "/findDogWalkerAroundMe")
+    public List<DogWalker> findDogWalkerAroundMe(@RequestBody LinkedHashMap payload){
+        List<String> geoHashLocations = (List<String>) payload.getOrDefault("geoHashLocations",null);
+
+
+
+        return null;
+    }
 }

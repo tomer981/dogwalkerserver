@@ -2,6 +2,8 @@ package com.mta.dogwalkerserver.models;
 
 import javax.persistence.*;
 
+
+//https://www.baeldung.com/java-db-storing-files
 @Entity
 public class Image {
 
@@ -14,6 +16,9 @@ public class Image {
     private byte[] content;
 
     private String name;
+
+    String location;
+
 
 
     // Getters and Setters

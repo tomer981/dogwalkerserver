@@ -2,6 +2,7 @@ package com.mta.dogwalkerserver.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -37,17 +38,24 @@ public class DogWalker extends User {
     @JoinColumn(name = "image_Id")
     private Image image_Id;
 
-//    @Transient
+//
+//    @Column(name="GeoHashLocation")
 //    @Formula("address_Id.getGeoHashLocation()")
-//    @Column(name = "GEO_HASH_LOCATION")
 //    private String geoHashLocation;
 
 
     //CONSTRUCTOR
     public DogWalker() {
     }
-
-    public DogWalker(String firstName, String lastName, String userName, String email, String aboutMyself, Date birthDay, String phone, Gender gender, int hourSalary, Set<DogOwner> contact, Address address_Id, Image image_Id) {
+//    public DogWalker(String firstName, String lastName, String userName, String email, String aboutMyself, Date birthDay, String phone, Gender gender, int hourSalary, Set<DogOwner> contact, Address address_Id, Image image_Id, String geoHashLocation) {
+//        super(firstName, lastName, userName, email, aboutMyself, birthDay, phone, gender);
+//        this.hourSalary = hourSalary;
+//        this.contact = contact;
+//        this.address_Id = address_Id;
+//        this.image_Id = image_Id;
+//        this.geoHashLocation = geoHashLocation;
+//    }
+        public DogWalker(String firstName, String lastName, String userName, String email, String aboutMyself, Date birthDay, String phone, Gender gender, int hourSalary, Set<DogOwner> contact, Address address_Id, Image image_Id) {
         super(firstName, lastName, userName, email, aboutMyself, birthDay, phone, gender);
         this.hourSalary = hourSalary;
         this.contact = contact;
@@ -80,4 +88,10 @@ public class DogWalker extends User {
     public void setImage_Id(Image image_Id) {
         this.image_Id = image_Id;
     }
+//    public String getGeoHashLocation() {
+//        return geoHashLocation;
+//    }
+//    public void setGeoHashLocation(String geoHashLocation) {
+//        this.geoHashLocation = geoHashLocation;
+//    }
 }

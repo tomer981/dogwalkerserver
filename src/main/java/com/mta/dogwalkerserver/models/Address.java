@@ -34,7 +34,7 @@ public class Address {
 
 //    @Transient
 //    @Column(name = "GEO_HASH")
-//    private GeoHash geoHash;
+    private GeoHash geoHash;
 
 
     //CONSTRUCTOR
