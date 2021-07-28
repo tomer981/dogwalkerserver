@@ -32,10 +32,6 @@ public class Address {
     private String geoHashLocation;
 
 
-//    @Transient
-//    @Column(name = "GEO_HASH")
-    private GeoHash geoHash;
-
 
     //CONSTRUCTOR
     public Address() {
@@ -47,18 +43,6 @@ public class Address {
         this.zipCode = zipCode;
         this.geoHashLocation = geoHashLocation;
     }
-
-//    public GeoHash getGeoHash() {
-//        return GeoHash.fromGeohashString(geoHashLocation);
-//    }
-//
-//    public void setGeoHash(GeoHash geoHash) {
-//        this.geoHash = geoHash;
-//    }
-//
-//    public void setGeoHash(String geoHash) {
-//        setGeoHash(GeoHash.fromGeohashString(geoHash));
-//    }
 
     //getter and setter
     public String getGeoHashLocation() {
