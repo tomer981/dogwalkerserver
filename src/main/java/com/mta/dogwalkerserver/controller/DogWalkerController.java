@@ -94,7 +94,8 @@ public class DogWalkerController {
     }
 
     @PostMapping(path = "/DogWalkersAroundMe")
-    public List<DogWalker> findDogWalkerAroundMe(@RequestBody LinkedHashMap payload) {
+    public List<DogWalker> findDogWalkersAroundMe(@RequestBody LinkedHashMap payload) {
+
         List<String> geoHashLocations = (List<String>) payload.getOrDefault("geoHashLocations", null);
         List<DogWalker> dogWalkers = dogWalkerRepo.getDogWalkersInGeoHashLocations(geoHashLocations);
 

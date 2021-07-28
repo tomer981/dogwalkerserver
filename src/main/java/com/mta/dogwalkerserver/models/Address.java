@@ -8,6 +8,7 @@ import com.xiaoleilu.hutool.geo.GeoHash;
 import javax.persistence.*;
 
 //5.2
+//http://geohash.gofreerange.com/
 @Entity
 @Table(name = "ADDRESS")
 public class Address {

@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 
 //https://www.baeldung.com/spring-requestmapping
+//https://www.baeldung.com/spring-security-login
 @RequestMapping("/api")
 @RestController
-public class ApiControllers {
+public class LoginControllers {
 
     @Autowired
     private DogWalkerRepo dogWalkerRepo;
@@ -20,7 +21,6 @@ public class ApiControllers {
     private DogOwnerRepo dogOwnerRepo;
 
 
+
+
 }
-
-
-
