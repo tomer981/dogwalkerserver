@@ -1,6 +1,7 @@
 package com.mta.dogwalkerserver.controller;
 
 import com.mta.dogwalkerserver.models.Address;
+import com.mta.dogwalkerserver.models.Dog;
 import com.mta.dogwalkerserver.models.DogOwner;
 import com.mta.dogwalkerserver.models.DogWalker;
 import com.mta.dogwalkerserver.repo.DogOwnerRepo;
@@ -35,6 +36,12 @@ public class DogOwnerController {
         return dogOwner.getContact();
     }
 
+    @GetMapping(value = "/id/{id}/dog")
+    public Dog getDog(@PathVariable int id){
+        DogOwner dogOwner = dogOwnerRepo.findById(id).get();
+        return dogOwner.getDog_Id();
+    }
+
     //    @GetMapping(path = "/image/id/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
 //    public @ResponseBody
 //    byte[] downloadImage(@PathVariable int id) {
@@ -60,7 +67,6 @@ public class DogOwnerController {
 //        dogOwnerRepo.save(dogOwner);
 //        return "save";
 //    }
-
 
     @PostMapping(value = "/save")
     public DogOwner saveDogOwner(@RequestBody DogOwner dogOwner){
