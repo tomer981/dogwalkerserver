@@ -86,7 +86,7 @@ public class DogOwnerController {
         DogOwner updateDogOwner = dogOwnerRepo.findById(id).get();
         updateDogOwner.setContact(dogOwner.getContact());
         updateDogOwner.setAddress_Id(dogOwner.getAddress_Id());
-        updateDogOwner.setImage_Id(dogOwner.getImage_Id());
+//        updateDogOwner.setImage_Id(dogOwner.getImage_Id());
         updateDogOwner.setFirstName(dogOwner.getFirstName());
         updateDogOwner.setLastName(dogOwner.getLastName());
         updateDogOwner.setUserName(dogOwner.getUserName());

@@ -9,7 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "dog_owner")
-@Table(name = "dog_owner", schema="dog_walker_app")
+@Table(name = "dog_owner", schema="dog_walker_app"
+)
 //, indexes=@Index(name="index_geo_hash",columnList = "GEO_HASH_LOCATION"))
 public class DogOwner extends User {
 
@@ -20,24 +21,17 @@ public class DogOwner extends User {
 
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "dog_id")
-    @JsonIgnore
     private Dog dog_Id;
 
-//  https://www.baeldung.com/jackson-ignore-properties-on-serialization
+    //  https://www.baeldung.com/jackson-ignore-properties-on-serialization
     @OneToMany(cascade=CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn(name = "CONTACT_DOG_WALKER")
+    @JoinColumn(name = "CONTACT_DogWalkers")
     @JsonIgnore
     private Set<DogWalker> contact = new HashSet<DogWalker>();
 
     @OneToOne(cascade= CascadeType.ALL)
     @JoinColumn(name = "address_Id")
-    @JsonIgnore
     private Address address_Id;
-
-    @OneToOne(cascade= CascadeType.ALL)
-    @JoinColumn(name = "image_Id")
-    @JsonIgnore
-    private Image image_Id;
 
 //    @Column(name = "GEO_HASH_LOCATION")
 //    @Formula("address_Id.getGeoHashLocation()")
@@ -54,38 +48,23 @@ public class DogOwner extends User {
 
     }
 
-
-    //getter
-    public int getId() {
-        return Id;
-    }
+    //getter and setter
     public Dog getDog_Id() {
         return dog_Id;
-    }
-    public Set<DogWalker> getContact() {
-        return contact;
-    }
-    public Address getAddress_Id() {
-        return address_Id;
-    }
-    public Image getImage_Id() {
-        return image_Id;
-    }
-
-    //setter
-    public void setId(int id) {
-        Id = id;
     }
     public void setDog_Id(Dog dog_Id) {
         this.dog_Id = dog_Id;
     }
+    public Set<DogWalker> getContact() {
+        return contact;
+    }
     public void setContact(Set<DogWalker> contact) {
         this.contact = contact;
     }
+    public Address getAddress_Id() {
+        return address_Id;
+    }
     public void setAddress_Id(Address address_Id) {
         this.address_Id = address_Id;
-    }
-    public void setImage_Id(Image image_Id) {
-        this.image_Id = image_Id;
     }
 }

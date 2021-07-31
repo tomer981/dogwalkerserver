@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @MappedSuperclass
-public abstract class User {
+public class User {
     @Column(name = "FIRST_NAME",nullable = false)
     private String firstName;
 
@@ -47,53 +47,52 @@ public abstract class User {
     }
 
     //get and setter
+    public Gender getGender() {
+        return gender;
+    }
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
     public String getFirstName() {
         return firstName;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
     public String getLastName() {
         return lastName;
     }
-    public String getUserName() {
-        return userName;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public String getAboutMyself() {
-        return aboutMyself;
-    }
-    public Date getBirthDay() {
-        return birthDay;
-    }
-    public String getPhone() {
-        return phone;
-    }
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+    public String getUserName() {
+        return userName;
     }
     public void setUserName(String userName) {
         this.userName = userName;
     }
+    public String getEmail() {
+        return email;
+    }
     public void setEmail(String email) {
         this.email = email;
+    }
+    public String getAboutMyself() {
+        return aboutMyself;
     }
     public void setAboutMyself(String aboutMyself) {
         this.aboutMyself = aboutMyself;
     }
+    public Date getBirthDay() {
+        return birthDay;
+    }
     public void setBirthDay(Date birthDay) {
         this.birthDay = birthDay;
     }
+    public String getPhone() {
+        return phone;
+    }
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-    public void setGender(Gender gender) {
-        this.gender = gender;
     }
 }
