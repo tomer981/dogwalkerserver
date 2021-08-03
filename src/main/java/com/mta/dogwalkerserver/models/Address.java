@@ -32,6 +32,9 @@ public class Address {
     @Column(name = "GEO_HASH_LOCATION")
     private String geoHashLocation;
 
+//    @Column(name = "GEO_HASH_LOCATION")
+//    @Formula("address_Id.getGeoHashLocation()")
+//    private String geoHashLocation;
 
 
     //CONSTRUCTOR

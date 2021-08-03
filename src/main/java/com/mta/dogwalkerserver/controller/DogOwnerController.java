@@ -20,24 +20,47 @@ public class DogOwnerController {
     private DogOwnerRepo dogOwnerRepo;
 
     @GetMapping(value = "/id/{id}")
-    public DogOwner getDogOwnerById(@PathVariable int id) {
+    public DogOwner getDogOwnerByIdV1(@PathVariable int id) {
+        return dogOwnerRepo.findById(id).get();
+    }
+
+    @GetMapping(value = "/")
+    public DogOwner getDogOwnerByIdV2(@RequestParam(name = "id") int id) {
         return dogOwnerRepo.findById(id).get();
     }
 
     @GetMapping(value = "/address/id/{id}")
-    public Address getAddress(@PathVariable int id) {
+    public Address getAddressV1(@PathVariable int id) {
+        DogOwner dogOwner = dogOwnerRepo.findById(id).get();
+        return dogOwner.getAddress_Id();
+    }
+
+    @GetMapping(value = "/address/")
+    public Address getAddressV2(@RequestParam(name = "id") int id) {
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
         return dogOwner.getAddress_Id();
     }
 
     @GetMapping(value = "/contact/id/{id}")
-    public Set<DogWalker> getContact(@PathVariable int id){
+    public Set<DogWalker> getContactV1(@PathVariable int id){
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
         return dogOwner.getContact();
     }
 
-    @GetMapping(value = "/id/{id}/dog")
-    public Dog getDog(@PathVariable int id){
+    @GetMapping(value = "/contact/")
+    public Set<DogWalker> getContactV2(@RequestParam(name = "id") int id){
+        DogOwner dogOwner = dogOwnerRepo.findById(id).get();
+        return dogOwner.getContact();
+    }
+
+    @GetMapping(value = "/getDogByDogOwner/id/{id}")
+    public Dog getDogV1(@PathVariable int id){
+        DogOwner dogOwner = dogOwnerRepo.findById(id).get();
+        return dogOwner.getDog_Id();
+    }
+
+    @GetMapping(value = "/getDogByDogOwner/")
+    public Dog getDogV2(@RequestParam(name = "id") int id){
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
         return dogOwner.getDog_Id();
     }
@@ -75,16 +98,39 @@ public class DogOwnerController {
     }
 
     @DeleteMapping(value = "/id/{id}")
-    public String deleteDogWalker(@PathVariable int id){
+    public String deleteDogOwnerV1(@PathVariable int id){
+        DogOwner dogOwner = dogOwnerRepo.findById(id).get();
+        dogOwnerRepo.delete(dogOwner);
+        return "deleted " + id;
+    }
+
+    @DeleteMapping(value = "/")
+    public String deleteDogOwnerV2(@RequestParam(name = "id") int id){
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
         dogOwnerRepo.delete(dogOwner);
         return "deleted " + id;
     }
 
     @PutMapping(value = "/update/id/{id}")
-    public DogOwner updateUser(@PathVariable int id,@RequestBody DogOwner dogOwner){
+    public DogOwner updateUserV1(@PathVariable int id,@RequestBody DogOwner dogOwner){
         DogOwner updateDogOwner = dogOwnerRepo.findById(id).get();
-        updateDogOwner.setContact(dogOwner.getContact());
+        updateDogOwner.setAddress_Id(dogOwner.getAddress_Id());
+//        updateDogOwner.setImage_Id(dogOwner.getImage_Id());
+        updateDogOwner.setFirstName(dogOwner.getFirstName());
+        updateDogOwner.setLastName(dogOwner.getLastName());
+        updateDogOwner.setUserName(dogOwner.getUserName());
+        updateDogOwner.setEmail(dogOwner.getEmail());
+        updateDogOwner.setAboutMyself(dogOwner.getAboutMyself());
+        updateDogOwner.setBirthDay(dogOwner.getBirthDay());
+        updateDogOwner.setPhone(dogOwner.getPhone());
+        updateDogOwner.setGender(dogOwner.getGender());
+        dogOwnerRepo.save(updateDogOwner);
+        return updateDogOwner;
+    }
+
+    @PutMapping(value = "/update/")
+    public DogOwner updateUserV2(@RequestParam(name = "id") int id,@RequestBody DogOwner dogOwner){
+        DogOwner updateDogOwner = dogOwnerRepo.findById(id).get();
         updateDogOwner.setAddress_Id(dogOwner.getAddress_Id());
 //        updateDogOwner.setImage_Id(dogOwner.getImage_Id());
         updateDogOwner.setFirstName(dogOwner.getFirstName());

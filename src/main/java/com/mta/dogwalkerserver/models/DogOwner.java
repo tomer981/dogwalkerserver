@@ -12,30 +12,30 @@ import java.util.Set;
 @Table(name = "dog_owner", schema="dog_walker_app"
 )
 //, indexes=@Index(name="index_geo_hash",columnList = "GEO_HASH_LOCATION"))
-public class DogOwner extends User {
+public class DogOwner extends User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
+    @JsonIgnore
     private int Id;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade=CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "dog_id")
     private Dog dog_Id;
 
     //  https://www.baeldung.com/jackson-ignore-properties-on-serialization
     @OneToMany(cascade=CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn(name = "CONTACT_DogWalkers")
+    @JoinColumn(name = "CONTACT_DOGWALKERS")
     @JsonIgnore
     private Set<DogWalker> contact = new HashSet<DogWalker>();
 
-    @OneToOne(cascade= CascadeType.ALL)
+    @OneToOne(cascade= CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "address_Id")
+    @JsonIgnore
     private Address address_Id;
 
-//    @Column(name = "GEO_HASH_LOCATION")
-//    @Formula("address_Id.getGeoHashLocation()")
-//    private String geoHashLocation;
+
 
     //CONSTRUCTOR
     public DogOwner() {
@@ -49,6 +49,9 @@ public class DogOwner extends User {
     }
 
     //getter and setter
+    public int getId() {
+        return Id;
+    }
     public Dog getDog_Id() {
         return dog_Id;
     }
@@ -66,5 +69,8 @@ public class DogOwner extends User {
     }
     public void setAddress_Id(Address address_Id) {
         this.address_Id = address_Id;
+    }
+    public void setId(int id) {
+        Id = id;
     }
 }

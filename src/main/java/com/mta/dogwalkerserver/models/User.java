@@ -2,11 +2,11 @@ package com.mta.dogwalkerserver.models;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @MappedSuperclass
-public class User {
+public abstract class User {
     @Column(name = "FIRST_NAME",nullable = false)
     private String firstName;
 
@@ -28,9 +28,10 @@ public class User {
     @Column(name = "PHONE")
     private String phone;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "GENDER")
     private Gender gender;
+
 
     //CONSTRUCTOR
     public User() {
