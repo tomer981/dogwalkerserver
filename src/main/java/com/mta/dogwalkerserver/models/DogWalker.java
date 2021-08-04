@@ -40,44 +40,45 @@ public class DogWalker extends User{
     //CONSTRUCTOR
     public DogWalker() {
     }
-
-    public DogWalker(String firstName, String lastName, String userName, String email, String aboutMyself, Date birthDay, String phone, Gender gender, int hourSalary, Set<DogOwner> contact, Address address_Id, Image image_Id) {
-        super(firstName, lastName, userName, email, aboutMyself, birthDay, phone, gender);
+    public DogWalker(String firstName, String lastName, String userName, String password, String email, String aboutMyself, Date birthDay, String phone, Gender gender, int hourSalary, Set<DogOwner> contact, Address address_Id, Image image_Id) {
+        super(firstName, lastName, userName, password, email, aboutMyself, birthDay, phone, gender);
         this.hourSalary = hourSalary;
         this.contact = contact;
         this.address_Id = address_Id;
         this.image_Id = image_Id;
     }
 
-    //getter and setter
+    //getter
+    public int getId() {
+        return Id;
+    }
     public int getHourSalary() {
         return hourSalary;
-    }
-    public void setHourSalary(int hourSalary) {
-        this.hourSalary = hourSalary;
     }
     public Set<DogOwner> getContact() {
         return contact;
     }
-    public void setContact(Set<DogOwner> contact) {
-        this.contact = contact;
-    }
     public Address getAddress_Id() {
         return address_Id;
-    }
-    public void setAddress_Id(Address address_Id) {
-        this.address_Id = address_Id;
     }
     public Image getImage_Id() {
         return image_Id;
     }
-    public void setImage_Id(Image image_Id) {
-        this.image_Id = image_Id;
-    }
-    public int getId() {
-        return Id;
-    }
+
+    // setter
     public void setId(int id) {
         Id = id;
+    }
+    public void setHourSalary(int hourSalary) {
+        this.hourSalary = hourSalary;
+    }
+    public void setContact(Set<DogOwner> contact) {
+        this.contact = contact;
+    }
+    public void setAddress_Id(Address address_Id) {
+        this.address_Id = address_Id;
+    }
+    public void setImage_Id(Image image_Id) {
+        this.image_Id = image_Id;
     }
 }
