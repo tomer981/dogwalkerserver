@@ -54,7 +54,6 @@
             <artifactId>hutool-geo</artifactId>
             <version>3.3.2</version>
         </dependency>
-
     </dependencies>
     <build>
         <plugins>
@@ -64,4 +63,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
