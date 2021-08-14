@@ -1,14 +1,14 @@
 package com.mta.dogwalkerserver.controller;
 
-import com.mta.dogwalkerserver.models.Address;
-import com.mta.dogwalkerserver.models.Dog;
-import com.mta.dogwalkerserver.models.DogOwner;
-import com.mta.dogwalkerserver.models.DogWalker;
+import com.mta.dogwalkerserver.models.*;
 import com.mta.dogwalkerserver.repo.DogOwnerRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -20,12 +20,13 @@ public class DogOwnerController {
     private DogOwnerRepo dogOwnerRepo;
 
 
-
+    //{{baseURL}}/api/DogOwner/id/1
     @GetMapping(value = "/id/{id}")
     public DogOwner getDogOwnerByIdV1(@PathVariable int id) {
         return dogOwnerRepo.findById(id).get();
     }
 
+    //{{baseURL}}/api/DogOwner/?id=1
     @GetMapping(value = "/")
     public DogOwner getDogOwnerByIdV2(@RequestParam(name = "id") int id) {
         return dogOwnerRepo.findById(id).get();
@@ -66,8 +67,8 @@ public class DogOwnerController {
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
         return dogOwner.getDog_Id();
     }
-
-    //    @GetMapping(path = "/image/id/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+//
+//    @GetMapping(path = "/image/id/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
 //    public @ResponseBody
 //    byte[] downloadImage(@PathVariable int id) {
 //        DogOwner dogOwner = dogOwnerRepo.getById(id);
@@ -75,6 +76,9 @@ public class DogOwnerController {
 //
 //        return image;
 //    }
+//
+//
+//
 //
 //    @PostMapping("/uploadImage/id/{id}")
 //    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile, @PathVariable int id) {
