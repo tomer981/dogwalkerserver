@@ -2,6 +2,7 @@ package com.mta.dogwalkerserver.repo;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
