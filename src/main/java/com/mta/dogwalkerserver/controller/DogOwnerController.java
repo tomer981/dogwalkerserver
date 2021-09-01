@@ -16,6 +16,7 @@ import java.util.Set;
 @RequestMapping("/api/DogOwner")
 @RestController
 public class DogOwnerController {
+
     @Autowired
     private DogOwnerRepo dogOwnerRepo;
 
@@ -67,35 +68,35 @@ public class DogOwnerController {
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
         return dogOwner.getDog_Id();
     }
-//
-//    @GetMapping(path = "/image/id/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-//    public @ResponseBody
-//    byte[] downloadImage(@PathVariable int id) {
-//        DogOwner dogOwner = dogOwnerRepo.getById(id);
-//        byte[] image = dogOwner.getImage_Id().getContent();
-//
-//        return image;
-//    }
-//
-//
-//
-//
-//    @PostMapping("/uploadImage/id/{id}")
-//    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile, @PathVariable int id) {
-//        DogOwner dogOwner = dogOwnerRepo.findById(id).get();
-//        Image dbImage = new Image();
-//
-//        dbImage.setName(imageFile.getName());
-//        try {
-//            dbImage.setContent(imageFile.getBytes());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        dogOwner.setImage_Id(dbImage);
-//        dogOwnerRepo.save(dogOwner);
-//        return "save";
-//    }
+
+    @GetMapping(path = "/image/id/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody
+    byte[] downloadImage(@PathVariable int id) {
+        DogOwner dogOwner = dogOwnerRepo.getById(id);
+        byte[] image = dogOwner.getImage().getContent();
+
+        return image;
+    }
+
+
+
+
+    @PostMapping("/uploadImage/id/{id}")
+    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile, @PathVariable int id) {
+        DogOwner dogOwner = dogOwnerRepo.findById(id).get();
+        Image dbImage = new Image();
+
+        dbImage.setName(imageFile.getName());
+        try {
+            dbImage.setContent(imageFile.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        dogOwner.setImage(dbImage);
+        dogOwnerRepo.save(dogOwner);
+        return "save";
+    }
 
     @PostMapping(value = "/save")
     public DogOwner saveDogOwner(@RequestBody DogOwner dogOwner){

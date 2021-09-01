@@ -33,19 +33,28 @@ public class DogWalker extends User{
     private Address address_Id;
 
     @OneToOne(cascade= CascadeType.ALL)
-    @JoinColumn(name = "image_Id")
-    private Image image_Id;
+    @JoinColumn(name = "image")
+    private Image image;
 
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
 
     //CONSTRUCTOR
     public DogWalker() {
     }
-    public DogWalker(String firstName, String lastName, String userName, String password, String email, String aboutMyself, Date birthDay, String phone, Gender gender, int hourSalary, Set<DogOwner> contact, Address address_Id, Image image_Id) {
+
+    public DogWalker(String firstName, String lastName, String userName, String password, String email, String aboutMyself, Date birthDay, String phone, Gender gender, int hourSalary, Set<DogOwner> contact, Address address_Id, Image image) {
         super(firstName, lastName, userName, password, email, aboutMyself, birthDay, phone, gender);
         this.hourSalary = hourSalary;
         this.contact = contact;
         this.address_Id = address_Id;
-        this.image_Id = image_Id;
+        this.image = image;
     }
 
     //getter
@@ -61,9 +70,7 @@ public class DogWalker extends User{
     public Address getAddress_Id() {
         return address_Id;
     }
-    public Image getImage_Id() {
-        return image_Id;
-    }
+    // public Image getImage_Id() { return image_Id; }
 
     // setter
     public void setId(int id) {
@@ -78,7 +85,5 @@ public class DogWalker extends User{
     public void setAddress_Id(Address address_Id) {
         this.address_Id = address_Id;
     }
-    public void setImage_Id(Image image_Id) {
-        this.image_Id = image_Id;
-    }
+  //  public void setImage_Id(Image image_Id) { this.image_Id = image_Id; }
 }

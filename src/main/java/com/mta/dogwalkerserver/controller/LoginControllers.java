@@ -20,7 +20,4 @@ public class LoginControllers {
     @Autowired
     private DogOwnerRepo dogOwnerRepo;
 
-
-
-
 }

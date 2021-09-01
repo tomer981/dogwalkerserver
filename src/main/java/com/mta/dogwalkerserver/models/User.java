@@ -35,6 +35,33 @@ public abstract class User {
     @Column(name = "GENDER")
     private Gender gender;
 
+//    @Column(name = "ROLES")
+//    private String roles;
+
+//    public String getRoles() {
+//        return roles;
+//    }
+//
+//    public void setRoles(String roles) {
+//        this.roles = roles;
+//    }
+
+//    private boolean active;
+//
+//    public boolean isActive() {
+//        return active;
+//    }
+//
+//    public void setActive(boolean active) {
+//        this.active = active;
+//    }
+
+
+
+
+
+
+
 
     //CONSTRUCTOR
     public User() {

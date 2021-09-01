@@ -19,6 +19,8 @@ public interface DogWalkerRepo extends JpaRepository<DogWalker, Integer> {
             "SUBSTRING(dw.address_Id.geoHashLocation,1,6) IN :geoHashLocations OR " +
             "SUBSTRING(dw.address_Id.geoHashLocation,1,7) IN :geoHashLocations")
     List<DogWalker> getDogWalkersInGeoHashLocations(@Param("geoHashLocations") List<String> geoHashLocations);
+
+
 }
 
 

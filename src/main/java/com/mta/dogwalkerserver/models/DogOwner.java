@@ -9,8 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "dog_owner")
-@Table(name = "dog_owner", schema="dog_walker_app"
-)
+@Table(name = "dog_owner", schema="dog_walker_app")
 //, indexes=@Index(name="index_geo_hash",columnList = "GEO_HASH_LOCATION"))
 public class DogOwner extends User{
 
@@ -35,16 +34,29 @@ public class DogOwner extends User{
     @JsonIgnore
     private Address address_Id;
 
+    @OneToOne(cascade= CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(name = "image")
+    @JsonIgnore
+    private Image image;
 
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
 
     //CONSTRUCTOR
     public DogOwner() {
     }
-    public DogOwner(String firstName, String lastName, String userName, String password, String email, String aboutMyself, Date birthDay, String phone, Gender gender, Dog dog_Id, Set<DogWalker> contact, Address address_Id) {
+
+    public DogOwner(String firstName, String lastName, String userName, String password, String email, String aboutMyself, Date birthDay, String phone, Gender gender, Dog dog_Id, Set<DogWalker> contact, Address address_Id, Image image) {
         super(firstName, lastName, userName, password, email, aboutMyself, birthDay, phone, gender);
         this.dog_Id = dog_Id;
         this.contact = contact;
         this.address_Id = address_Id;
+        this.image = image;
     }
 
     //getter and

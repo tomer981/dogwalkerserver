@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -94,7 +95,7 @@ public class DogWalkerController {
         updateDogWalker.setHourSalary(dogWalker.getHourSalary());
 //        updateDogWalker.setContact(dogWalker.getContact());
         updateDogWalker.setAddress_Id(dogWalker.getAddress_Id());
-        updateDogWalker.setImage_Id(dogWalker.getImage_Id());
+        updateDogWalker.setImage(dogWalker.getImage());
         updateDogWalker.setFirstName(dogWalker.getFirstName());
         updateDogWalker.setLastName(dogWalker.getLastName());
         updateDogWalker.setUserName(dogWalker.getUserName());
@@ -114,7 +115,7 @@ public class DogWalkerController {
         updateDogWalker.setHourSalary(dogWalker.getHourSalary());
 //        updateDogWalker.setContact(dogWalker.getContact());
         updateDogWalker.setAddress_Id(dogWalker.getAddress_Id());
-        updateDogWalker.setImage_Id(dogWalker.getImage_Id());
+        updateDogWalker.setImage(dogWalker.getImage());
         updateDogWalker.setFirstName(dogWalker.getFirstName());
         updateDogWalker.setLastName(dogWalker.getLastName());
         updateDogWalker.setUserName(dogWalker.getUserName());
@@ -137,32 +138,33 @@ public class DogWalkerController {
     }
 
 
-//    @PostMapping("/uploadImage/id/{id}")
-//    Long uploadImageV1(@RequestParam MultipartFile multipartImage) throws Exception {
-//        Image dbImage = new Image();
-//        dbImage.setName(multipartImage.getName());
-//        dbImage.setContent(multipartImage.getBytes());
-//
-//        return imageDbRepo.save(dbImage).getImage_Id();
-//    }
-//
-//
-//    @GetMapping(path = "/image/id/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-//    public Resource downloadImage(@PathVariable int imageId) {
-//        byte[] image = imageDbRepo.findById(imageId)
-//                                  .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND))
-//                                  .getContent();
-//
-//        return (Resource) new ByteArrayResource(image);
-//    }
-//
-//    public int save(byte[] bytes, String imageName) throws Exception {
-//        String location = fileSystemRepo.save(bytes, imageName);
-//
-//        return fileSystemRepo.save(new Image(imageName, location)).getId();
-//    }
+
+    @GetMapping(path = "/image/id/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody
+    byte[] downloadImage(@PathVariable int id) {
+        DogWalker dogWalker = dogWalkerRepo.getById(id);
+        byte[] image = dogWalker.getImage().getContent();
+
+        return image;
+    }
 
 
+    @PostMapping("/uploadImage/id/{id}")
+    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile, @PathVariable int id) {
+        DogWalker dogWalker = dogWalkerRepo.findById(id).get();
+        Image dbImage = new Image();
+
+        dbImage.setName(imageFile.getName());
+        try {
+            dbImage.setContent(imageFile.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        dogWalker.setImage(dbImage);
+        dogWalkerRepo.save(dogWalker);
+        return "save";
+    }
 
 
 }

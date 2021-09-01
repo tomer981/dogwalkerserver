@@ -9,8 +9,8 @@ import javax.persistence.*;
 public class Image {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="image_Id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "image_Id")
     private Long image_Id;
 
     @Lob
@@ -19,6 +19,9 @@ public class Image {
     private String name;
 
     String location;
+
+    // public Image(String imageName, String location);    צריך את הקונסטרקטור הזה?
+
 
 
     // Getters
