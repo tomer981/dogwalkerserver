@@ -35,26 +35,27 @@ public abstract class User {
     @Column(name = "GENDER")
     private Gender gender;
 
-//    @Column(name = "ROLES")
-//    private String roles;
+    @Column(name = "ROLES")
+    private String roles;
 
-//    public String getRoles() {
-//        return roles;
-//    }
-//
-//    public void setRoles(String roles) {
-//        this.roles = roles;
-//    }
+    public String getRoles() {
+        return roles;
+    }
 
-//    private boolean active;
-//
-//    public boolean isActive() {
-//        return active;
-//    }
-//
-//    public void setActive(boolean active) {
-//        this.active = active;
-//    }
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
+    @Column(name = "ACTIVE")
+    private boolean active;
+
+    public boolean isActive() {
+        return true; //instead of return active
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
 
 
@@ -67,7 +68,7 @@ public abstract class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String userName, String password, String email, String aboutMyself, Date birthDay, String phone, Gender gender) {
+    public User(String firstName, String lastName, String userName, String password, String email, String aboutMyself, Date birthDay, String phone, Gender gender, boolean active, String roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
@@ -77,6 +78,8 @@ public abstract class User {
         this.birthDay = birthDay;
         this.phone = phone;
         this.gender = gender;
+        this.active = active;
+        this.roles = roles;
     }
 
     // getter

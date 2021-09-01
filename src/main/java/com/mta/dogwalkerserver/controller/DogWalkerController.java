@@ -4,6 +4,7 @@ import com.mta.dogwalkerserver.models.Address;
 import com.mta.dogwalkerserver.models.DogOwner;
 import com.mta.dogwalkerserver.models.DogWalker;
 import com.mta.dogwalkerserver.models.Image;
+import com.mta.dogwalkerserver.repo.DogOwnerRepo;
 import com.mta.dogwalkerserver.repo.DogWalkerRepo;
 
 //import com.mta.dogwalkerserver.repo.FileSystemRepo;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -28,6 +30,12 @@ public class DogWalkerController {
     @Autowired
     private DogWalkerRepo dogWalkerRepo;
 
+    @Autowired
+    private DogOwnerRepo dogOwnerRepo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 //    @Autowired
 //    private ImageDbRepo imageDbRepo;
 //
@@ -39,10 +47,6 @@ public class DogWalkerController {
         return dogWalkerRepo.findById(id).get();
     }
 
-    @GetMapping(value = "/")
-    public DogWalker getDogWalkerByIdV2(@RequestParam(name = "id") int id) {
-        return dogWalkerRepo.findById(id).get();
-    }
 
     @GetMapping(value = "/address/id/{id}")
     public Address getAddressV1(@PathVariable int id) {
@@ -50,11 +54,6 @@ public class DogWalkerController {
         return dogWalker.getAddress_Id();
     }
 
-    @GetMapping(value = "/address/")
-    public Address getAddressV2(@RequestParam(name = "id") int id) {
-        DogWalker dogWalker = dogWalkerRepo.findById(id).get();
-        return dogWalker.getAddress_Id();
-    }
 
     @GetMapping(value = "/contact/id/{id}")
     public Set<DogOwner> getContactV1(@PathVariable int id){
@@ -62,14 +61,21 @@ public class DogWalkerController {
         return dogWalker.getContact();
     }
 
-    @GetMapping(value = "/contact/")
-    public Set<DogOwner> getContactV2(@RequestParam(name = "id") int id){
-        DogWalker dogWalker = dogWalkerRepo.findById(id).get();
-        return dogWalker.getContact();
-    }
 
     @PostMapping(value = "/save")
-    public DogWalker saveDogWalker(@RequestBody DogWalker dogWalker) {
+    public DogWalker saveDogWalker(@RequestBody DogWalker dogWalker) throws Exception {
+
+        DogOwner dogOwnercheck = dogOwnerRepo.findByUserName(dogWalker.getUserName());
+        DogWalker dogWalkercheck = dogWalkerRepo.findByUserName(dogWalker.getUserName());
+        if(dogOwnercheck != null || dogWalkercheck != null)
+        {
+            Exception excpt = new Exception("already have a user with this username! please choose a unique username");
+            throw excpt;
+        }
+
+        dogWalker.setRoles("DOG_WALKER_ROLE");
+        dogWalker.setActive(true);
+        dogWalker.setPassword(passwordEncoder.encode(dogWalker.getPassword()));
         dogWalkerRepo.save(dogWalker);
         return dogWalker;
     }
@@ -81,17 +87,35 @@ public class DogWalkerController {
         return "deleted " + id;
     }
 
-    @DeleteMapping(value = "/")
-    public String deleteDogWalkerV2(@RequestParam(name = "id") int id) {
-        DogWalker dogWalker = dogWalkerRepo.findById(id).get();
-        dogWalkerRepo.delete(dogWalker);
-        return "deleted " + id;
-    }
 
 
     @PutMapping(value = "/update/id/{id}")
-    public DogWalker updateUserV1(@PathVariable int id, @RequestBody DogWalker dogWalker) {
+    public DogWalker updateUserV1(@PathVariable int id, @RequestBody DogWalker dogWalker) throws Exception {
+
         DogWalker updateDogWalker = dogWalkerRepo.findById(id).get();
+        String updatedDogWalkerUserName = updateDogWalker.getUserName();
+
+        DogOwner dogOwnercheck = dogOwnerRepo.findByUserName(dogWalker.getUserName());
+        DogWalker dogWalkercheck = dogWalkerRepo.findByUserName(dogWalker.getUserName());
+
+
+        if (dogOwnercheck != null || dogWalkercheck != null) {
+            if (dogWalkercheck != null){
+                if(dogWalkercheck.getId() != updateDogWalker.getId()) {
+                    Exception excpt = new Exception("already have a user with this username! please choose a unique username");
+                    throw excpt;
+                }
+            }
+            else if (dogOwnercheck != null){
+                Exception excpt = new Exception("already have a user with this username! please choose a unique username");
+                throw excpt;
+            }
+        }
+
+
+
+        //DogWalker updateDogWalker = dogWalkerRepo.findById(id).get();
+
         updateDogWalker.setHourSalary(dogWalker.getHourSalary());
 //        updateDogWalker.setContact(dogWalker.getContact());
         updateDogWalker.setAddress_Id(dogWalker.getAddress_Id());
@@ -109,24 +133,6 @@ public class DogWalkerController {
     }
 
 
-    @PutMapping(value = "/update/")
-    public DogWalker updateUserV2(@RequestParam(name = "id") int id, @RequestBody DogWalker dogWalker) {
-        DogWalker updateDogWalker = dogWalkerRepo.findById(id).get();
-        updateDogWalker.setHourSalary(dogWalker.getHourSalary());
-//        updateDogWalker.setContact(dogWalker.getContact());
-        updateDogWalker.setAddress_Id(dogWalker.getAddress_Id());
-        updateDogWalker.setImage(dogWalker.getImage());
-        updateDogWalker.setFirstName(dogWalker.getFirstName());
-        updateDogWalker.setLastName(dogWalker.getLastName());
-        updateDogWalker.setUserName(dogWalker.getUserName());
-        updateDogWalker.setEmail(dogWalker.getEmail());
-        updateDogWalker.setAboutMyself(dogWalker.getAboutMyself());
-        updateDogWalker.setBirthDay(dogWalker.getBirthDay());
-        updateDogWalker.setPhone(dogWalker.getPhone());
-        updateDogWalker.setGender(dogWalker.getGender());
-        dogWalkerRepo.save(updateDogWalker);
-        return updateDogWalker;
-    }
 
     @PostMapping(path = "/DogWalkersAroundMe")
     public List<DogWalker> findDogWalkersAroundMe(@RequestBody LinkedHashMap payload) {

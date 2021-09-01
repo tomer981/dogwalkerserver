@@ -31,7 +31,7 @@ public class DogOwner extends User{
 
     @OneToOne(cascade= CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "address_Id")
-    @JsonIgnore
+//    @JsonIgnore
     private Address address_Id;
 
     @OneToOne(cascade= CascadeType.ALL,orphanRemoval = true)
@@ -47,16 +47,19 @@ public class DogOwner extends User{
         this.image = image;
     }
 
+
+
     //CONSTRUCTOR
     public DogOwner() {
     }
 
     public DogOwner(String firstName, String lastName, String userName, String password, String email, String aboutMyself, Date birthDay, String phone, Gender gender, Dog dog_Id, Set<DogWalker> contact, Address address_Id, Image image) {
-        super(firstName, lastName, userName, password, email, aboutMyself, birthDay, phone, gender);
+        super(firstName, lastName, userName, password, email, aboutMyself, birthDay, phone, gender, true, "DOG_OWNER_ROLE");
         this.dog_Id = dog_Id;
         this.contact = contact;
         this.address_Id = address_Id;
         this.image = image;
+        //this.roles = "DOG_OWNER_ROLE";
     }
 
     //getter and

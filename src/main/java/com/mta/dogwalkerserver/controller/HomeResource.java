@@ -8,17 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeResource {
 
     @GetMapping("/")
-    public String home() {
-        return ("<h1>Welcome</h1>");
-    }
+    public String home() { return ("<h1>Welcome</h1>"); }
 
     @GetMapping("/dogwalker")
-    public String user() {
+    public String dogwalker() {
         return ("<h1>Welcome DogWalker</h1>");
     }
 
-    @GetMapping("/dogonwer")
-    public String admin() {
+    @GetMapping("/dogowner")
+    public String dogowner() {
         return ("<h1>Welcome DogOwner</h1>");
     }
 

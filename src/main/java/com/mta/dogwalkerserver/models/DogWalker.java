@@ -29,7 +29,7 @@ public class DogWalker extends User{
 
     @OneToOne(cascade= CascadeType.ALL)
     @JoinColumn(name = "address_Id")
-    @JsonIgnore
+//    @JsonIgnore
     private Address address_Id;
 
     @OneToOne(cascade= CascadeType.ALL)
@@ -45,12 +45,14 @@ public class DogWalker extends User{
         this.image = image;
     }
 
+
+
     //CONSTRUCTOR
     public DogWalker() {
     }
 
-    public DogWalker(String firstName, String lastName, String userName, String password, String email, String aboutMyself, Date birthDay, String phone, Gender gender, int hourSalary, Set<DogOwner> contact, Address address_Id, Image image) {
-        super(firstName, lastName, userName, password, email, aboutMyself, birthDay, phone, gender);
+    public DogWalker(String firstName, String lastName, String userName, String password, String email, String aboutMyself, Date birthDay, String phone, Gender gender, boolean active, String roles, int hourSalary, Set<DogOwner> contact, Address address_Id, Image image) {
+        super(firstName, lastName, userName, password, email, aboutMyself, birthDay, phone, gender, active, roles);
         this.hourSalary = hourSalary;
         this.contact = contact;
         this.address_Id = address_Id;
@@ -85,5 +87,5 @@ public class DogWalker extends User{
     public void setAddress_Id(Address address_Id) {
         this.address_Id = address_Id;
     }
-  //  public void setImage_Id(Image image_Id) { this.image_Id = image_Id; }
+    //  public void setImage_Id(Image image_Id) { this.image_Id = image_Id; }
 }

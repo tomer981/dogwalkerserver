@@ -1,5 +1,6 @@
 package com.mta.dogwalkerserver.repo;
 
+import com.mta.dogwalkerserver.models.DogOwner;
 import com.mta.dogwalkerserver.models.DogWalker;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 
 //https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.repositories
@@ -20,6 +22,8 @@ public interface DogWalkerRepo extends JpaRepository<DogWalker, Integer> {
             "SUBSTRING(dw.address_Id.geoHashLocation,1,7) IN :geoHashLocations")
     List<DogWalker> getDogWalkersInGeoHashLocations(@Param("geoHashLocations") List<String> geoHashLocations);
 
+
+    DogWalker findByUserName(String userName);
 
 }
 
