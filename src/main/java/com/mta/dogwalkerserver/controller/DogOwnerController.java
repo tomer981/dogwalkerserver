@@ -31,27 +31,27 @@ public class DogOwnerController {
 
     //{{baseURL}}/api/DogOwner/id/1
     @GetMapping(value = "/id/{id}")
-    public DogOwner getDogOwnerByIdV1(@PathVariable int id) {
+    public DogOwner getDogOwnerById(@PathVariable int id) {
         return dogOwnerRepo.findById(id).get();
     }
 
 
     @GetMapping(value = "/address/id/{id}")
-    public Address getAddressV1(@PathVariable int id) {
+    public Address getAddress(@PathVariable int id) {
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
         return dogOwner.getAddress_Id();
     }
 
 
     @GetMapping(value = "/contact/id/{id}")
-    public Set<DogWalker> getContactV1(@PathVariable int id){
+    public Set<DogWalker> getContact(@PathVariable int id){
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
         return dogOwner.getContact();
     }
 
 
     @GetMapping(value = "/getDogByDogOwner/id/{id}")
-    public Dog getDogV1(@PathVariable int id){
+    public Dog getDog(@PathVariable int id){
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
         return dogOwner.getDog_Id();
     }
@@ -105,7 +105,7 @@ public class DogOwnerController {
     }
 
     @DeleteMapping(value = "/id/{id}")
-    public String deleteDogOwnerV1(@PathVariable int id){
+    public String deleteDogOwner(@PathVariable int id){
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
         dogOwnerRepo.delete(dogOwner);
         return "deleted " + id;
@@ -114,7 +114,7 @@ public class DogOwnerController {
 
 
     @PutMapping(value = "/update/id/{id}")
-    public DogOwner updateUserV1(@PathVariable int id,@RequestBody DogOwner dogOwner) throws Exception {
+    public DogOwner updateUser(@PathVariable int id,@RequestBody DogOwner dogOwner) throws Exception {
 
         DogOwner updateDogOwner = dogOwnerRepo.findById(id).get();
         String updatedDogOwnerUserName = updateDogOwner.getUserName();

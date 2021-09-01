@@ -43,20 +43,20 @@ public class DogWalkerController {
 //    private FileSystemRepo fileSystemRepo;
 
     @GetMapping(value = "/id/{id}")
-    public DogWalker getDogWalkerByIdV1(@PathVariable int id) {
+    public DogWalker getDogWalkerById(@PathVariable int id) {
         return dogWalkerRepo.findById(id).get();
     }
 
 
     @GetMapping(value = "/address/id/{id}")
-    public Address getAddressV1(@PathVariable int id) {
+    public Address getAddress(@PathVariable int id) {
         DogWalker dogWalker = dogWalkerRepo.findById(id).get();
         return dogWalker.getAddress_Id();
     }
 
 
     @GetMapping(value = "/contact/id/{id}")
-    public Set<DogOwner> getContactV1(@PathVariable int id){
+    public Set<DogOwner> getContact(@PathVariable int id){
         DogWalker dogWalker = dogWalkerRepo.findById(id).get();
         return dogWalker.getContact();
     }
@@ -81,7 +81,7 @@ public class DogWalkerController {
     }
 
     @DeleteMapping(value = "/id/{id}")
-    public String deleteDogWalkerV1(@PathVariable int id) {
+    public String deleteDogWalker(@PathVariable int id) {
         DogWalker dogWalker = dogWalkerRepo.findById(id).get();
         dogWalkerRepo.delete(dogWalker);
         return "deleted " + id;
@@ -90,7 +90,7 @@ public class DogWalkerController {
 
 
     @PutMapping(value = "/update/id/{id}")
-    public DogWalker updateUserV1(@PathVariable int id, @RequestBody DogWalker dogWalker) throws Exception {
+    public DogWalker updateUser(@PathVariable int id, @RequestBody DogWalker dogWalker) throws Exception {
 
         DogWalker updateDogWalker = dogWalkerRepo.findById(id).get();
         String updatedDogWalkerUserName = updateDogWalker.getUserName();
