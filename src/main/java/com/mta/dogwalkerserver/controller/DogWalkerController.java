@@ -7,18 +7,12 @@ import com.mta.dogwalkerserver.models.Image;
 import com.mta.dogwalkerserver.repo.DogOwnerRepo;
 import com.mta.dogwalkerserver.repo.DogWalkerRepo;
 
-//import com.mta.dogwalkerserver.repo.FileSystemRepo;
-//import com.mta.dogwalkerserver.repo.ImageDbRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -36,11 +30,6 @@ public class DogWalkerController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-//    @Autowired
-//    private ImageDbRepo imageDbRepo;
-//
-//    @Autowired
-//    private FileSystemRepo fileSystemRepo;
 
     @GetMapping(value = "/id/{id}")
     public DogWalker getDogWalkerById(@PathVariable int id) {
@@ -98,7 +87,6 @@ public class DogWalkerController {
         DogOwner dogOwnercheck = dogOwnerRepo.findByUserName(dogWalker.getUserName());
         DogWalker dogWalkercheck = dogWalkerRepo.findByUserName(dogWalker.getUserName());
 
-
         if (dogOwnercheck != null || dogWalkercheck != null) {
             if (dogWalkercheck != null){
                 if(dogWalkercheck.getId() != updateDogWalker.getId()) {
@@ -111,8 +99,6 @@ public class DogWalkerController {
                 throw excpt;
             }
         }
-
-
 
         //DogWalker updateDogWalker = dogWalkerRepo.findById(id).get();
 
@@ -132,6 +118,10 @@ public class DogWalkerController {
         return updateDogWalker;
     }
 
+    @GetMapping(value = "/getDogOwnerIdByUserName/userName/{userName}")
+    public Integer getDogOwnerIdByUserName(@PathVariable String userName) {
+        return dogOwnerRepo.findByUserName(userName).getId();
+    }
 
 
     @PostMapping(path = "/DogWalkersAroundMe")

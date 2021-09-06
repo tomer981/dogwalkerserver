@@ -104,6 +104,13 @@ public class DogOwnerController {
         return dogOwner;
     }
 
+    @GetMapping(value = "/getDogWalkerIdByUserName/userName/{userName}")
+    public Integer getDogWalkerIdByUserName(@PathVariable String userName) {
+        return dogWalkerRepo.findByUserName(userName).getId();
+    }
+
+
+
     @DeleteMapping(value = "/id/{id}")
     public String deleteDogOwner(@PathVariable int id){
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
