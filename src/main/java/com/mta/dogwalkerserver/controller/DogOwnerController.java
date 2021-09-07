@@ -156,6 +156,7 @@ public class DogOwnerController {
         updateDogOwner.setBirthDay(dogOwner.getBirthDay());
         updateDogOwner.setPhone(dogOwner.getPhone());
         updateDogOwner.setGender(dogOwner.getGender());
+        updateDogOwner.setDog_Id(dogOwner.getDog_Id());
         dogOwnerRepo.save(updateDogOwner);
         return updateDogOwner;
     }
