@@ -53,7 +53,7 @@ public class DogOwnerController {
     @GetMapping(value = "/getDogByDogOwner/id/{id}")
     public Dog getDog(@PathVariable int id){
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
-        return dogOwner.getDog_Id();
+        return dogOwner.getDog();
     }
 
 
@@ -65,8 +65,6 @@ public class DogOwnerController {
 
         return image;
     }
-
-
 
 
     @PostMapping("/uploadImage/id/{id}")
@@ -85,6 +83,37 @@ public class DogOwnerController {
         dogOwnerRepo.save(dogOwner);
         return "save";
     }
+
+    @GetMapping(path = "/dog/image/id/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody
+    byte[] downloadImageDog(@PathVariable int id) {
+        DogOwner dogOwner = dogOwnerRepo.getById(id);
+        Dog dog = dogOwner.getDog();
+        byte[] image = dog.getImage().getContent();
+
+        return image;
+    }
+
+    @PostMapping("/dog/uploadImage/id/{id}")
+    public String uploadImageDog(@RequestParam("imageFile") MultipartFile imageFile, @PathVariable int id) {
+        DogOwner dogOwner = dogOwnerRepo.findById(id).get();
+        Dog dog = dogOwner.getDog();
+        Image dbImage = new Image();
+
+        dbImage.setName(imageFile.getName());
+        try {
+            dbImage.setContent(imageFile.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        dog.setImage(dbImage);
+        dogOwner.setDog(dog);
+        dogOwnerRepo.save(dogOwner);
+        return "save";
+    }
+
+
 
     @PostMapping(value = "/save")
     public DogOwner saveDogOwner(@RequestBody DogOwner dogOwner) throws Exception {
@@ -156,7 +185,7 @@ public class DogOwnerController {
         updateDogOwner.setBirthDay(dogOwner.getBirthDay());
         updateDogOwner.setPhone(dogOwner.getPhone());
         updateDogOwner.setGender(dogOwner.getGender());
-        updateDogOwner.setDog_Id(dogOwner.getDog_Id());
+        updateDogOwner.setDog(dogOwner.getDog());
         dogOwnerRepo.save(updateDogOwner);
         return updateDogOwner;
     }

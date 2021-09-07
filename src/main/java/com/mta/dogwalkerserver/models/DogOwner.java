@@ -36,7 +36,7 @@ public class DogOwner extends User{
 
     @OneToOne(cascade= CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "image")
-    @JsonIgnore
+//    @JsonIgnore
     private Image image;
 
     public Image getImage() {
@@ -66,7 +66,7 @@ public class DogOwner extends User{
     public int getId() {
         return Id;
     }
-    public Dog getDog_Id() {
+    public Dog getDog() {
         return dog_Id;
     }
     public Set<DogWalker> getContact() {
@@ -80,7 +80,7 @@ public class DogOwner extends User{
     public void setId(int id) {
         Id = id;
     }
-    public void setDog_Id(Dog dog_Id) {
+    public void setDog(Dog dog_Id) {
         this.dog_Id = dog_Id;
     }
     public void setContact(Set<DogWalker> contact) {

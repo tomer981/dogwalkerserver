@@ -33,11 +33,17 @@ public class Dog {
     @Column(name = "GENDER")
     private Gender gender;
 
+    @OneToOne(cascade= CascadeType.ALL)
+    @JoinColumn(name = "image")
+    private Image image;
+
+
 
     //CONSTRUCTOR
     public Dog() {
     }
-    public Dog(String name, String breed, boolean vaccinated, boolean castrated, boolean socialPeople, boolean socialDog, Gender gender) {
+
+    public Dog(String name, String breed, boolean vaccinated, boolean castrated, boolean socialPeople, boolean socialDog, Gender gender, Image image) {
         this.name = name;
         this.breed = breed;
         this.vaccinated = vaccinated;
@@ -45,6 +51,7 @@ public class Dog {
         this.socialPeople = socialPeople;
         this.socialDog = socialDog;
         this.gender = gender;
+        this.image = image;
     }
 
     //get and setter
@@ -97,5 +104,12 @@ public class Dog {
         this.gender = gender;
     }
 
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
     //https://www.baeldung.com/spring-controller-return-image-file
 }
