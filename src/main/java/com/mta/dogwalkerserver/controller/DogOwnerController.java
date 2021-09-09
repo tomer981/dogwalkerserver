@@ -97,7 +97,7 @@ public class DogOwnerController {
     @PostMapping("/dog/uploadImage/id/{id}")
     public String uploadImageDog(@RequestParam("imageFile") MultipartFile imageFile, @PathVariable int id) {
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
-        Dog dog = dogOwner.getDog();
+        Dog dog = dogOwner.getDog_Id();
         Image dbImage = new Image();
 
         dbImage.setName(imageFile.getName());
@@ -108,7 +108,7 @@ public class DogOwnerController {
         }
 
         dog.setImage(dbImage);
-        dogOwner.setDog(dog);
+        dogOwner.setDog_Id(dog);
         dogOwnerRepo.save(dogOwner);
         return "save";
     }

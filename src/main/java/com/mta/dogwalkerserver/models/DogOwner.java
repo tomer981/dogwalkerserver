@@ -89,4 +89,12 @@ public class DogOwner extends User{
     public void setAddress_Id(Address address_Id) {
         this.address_Id = address_Id;
     }
+
+    public Dog getDog_Id() {
+        return dog_Id;
+    }
+
+    public void setDog_Id(Dog dog_Id) {
+        this.dog_Id = dog_Id;
+    }
 }
