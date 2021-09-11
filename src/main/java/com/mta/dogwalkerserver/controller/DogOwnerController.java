@@ -96,14 +96,14 @@ public class DogOwnerController {
         byte[] decodedBytes = Base64.getDecoder().decode(imageFile.get("imageFile"));
 
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
-        Dog dog = dogOwner.getDog_Id();
+        Dog dog = dogOwner.getDog();
         Image dbImage = new Image();
 
         dbImage.setName("imageFile");
         dbImage.setContent(decodedBytes);
 
         dog.setImage(dbImage);
-        dogOwner.setDog_Id(dog);
+        dogOwner.setDog(dog);
         dogOwnerRepo.save(dogOwner);
         return "save";
     }

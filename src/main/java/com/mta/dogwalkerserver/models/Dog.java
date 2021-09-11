@@ -55,12 +55,6 @@ public class Dog {
     }
 
     //get and setter
-    public int getDog_Id() {
-        return dog_Id;
-    }
-    public void setDog_Id(int dog_Id) {
-        this.dog_Id = dog_Id;
-    }
     public String getName() {
         return name;
     }
@@ -102,6 +96,14 @@ public class Dog {
     }
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public int getDog_Id() {
+        return dog_Id;
+    }
+
+    public void setDog_Id(int dog_Id) {
+        this.dog_Id = dog_Id;
     }
 
     public Image getImage() {
