@@ -65,27 +65,10 @@ public class DogOwnerController {
     }
 
 
+
     @PostMapping("/uploadImage/id/{id}")
-    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile, @PathVariable int id) {
-        DogOwner dogOwner = dogOwnerRepo.findById(id).get();
-        Image dbImage = new Image();
-
-        dbImage.setName(imageFile.getName());
-        try {
-            dbImage.setContent(imageFile.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        dogOwner.setImage(dbImage);
-        dogOwnerRepo.save(dogOwner);
-        return "save";
-    }
-
-    @PostMapping("/uploadImage1/id/{id}")
-    public String uploadImage1(@RequestBody Map<String, String> imageFile, @PathVariable int id) {//RequestBody
+    public String uploadImage(@RequestBody Map<String, String> imageFile, @PathVariable int id) {//RequestBody
         byte[] decodedBytes = Base64.getDecoder().decode(imageFile.get("imageFile"));
-
 
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
         Image dbImage = new Image();
@@ -109,17 +92,15 @@ public class DogOwnerController {
     }
 
     @PostMapping("/dog/uploadImage/id/{id}")
-    public String uploadImageDog(@RequestParam("imageFile") MultipartFile imageFile, @PathVariable int id) {
+    public String uploadImageDog(@RequestBody Map<String, String> imageFile, @PathVariable int id) {
+        byte[] decodedBytes = Base64.getDecoder().decode(imageFile.get("imageFile"));
+
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
         Dog dog = dogOwner.getDog_Id();
         Image dbImage = new Image();
 
-        dbImage.setName(imageFile.getName());
-        try {
-            dbImage.setContent(imageFile.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dbImage.setName("imageFile");
+        dbImage.setContent(decodedBytes);
 
         dog.setImage(dbImage);
         dogOwner.setDog_Id(dog);

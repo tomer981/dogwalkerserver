@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RequestMapping("/api/DogWalker")
 @RestController
@@ -146,22 +144,19 @@ public class DogWalkerController {
 
 
     @PostMapping("/uploadImage/id/{id}")
-    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile, @PathVariable int id) {
+    public String uploadImage(@RequestBody Map<String, String> imageFile, @PathVariable int id) {
+        byte[] decodedBytes = Base64.getDecoder().decode(imageFile.get("imageFile"));
+
         DogWalker dogWalker = dogWalkerRepo.findById(id).get();
         Image dbImage = new Image();
 
-        dbImage.setName(imageFile.getName());
-        try {
-            dbImage.setContent(imageFile.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dbImage.setName("imageFile");
+        dbImage.setContent(decodedBytes);
+
 
         dogWalker.setImage(dbImage);
         dogWalkerRepo.save(dogWalker);
         return "save";
     }
-
-
 }
 
