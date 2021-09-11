@@ -107,9 +107,7 @@ public class Dog {
     public Image getImage() {
         return image;
     }
-
     public void setImage(Image image) {
         this.image = image;
     }
-    //https://www.baeldung.com/spring-controller-return-image-file
 }

@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RequestMapping("/api/DogOwner")
 @RestController
@@ -78,6 +76,22 @@ public class DogOwnerController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        dogOwner.setImage(dbImage);
+        dogOwnerRepo.save(dogOwner);
+        return "save";
+    }
+
+    @PostMapping("/uploadImage1/id/{id}")
+    public String uploadImage1(@RequestBody Map<String, String> imageFile, @PathVariable int id) {//RequestBody
+        byte[] decodedBytes = Base64.getDecoder().decode(imageFile.get("imageFile"));
+
+
+        DogOwner dogOwner = dogOwnerRepo.findById(id).get();
+        Image dbImage = new Image();
+
+        dbImage.setName("imageFile");
+        dbImage.setContent(decodedBytes);
 
         dogOwner.setImage(dbImage);
         dogOwnerRepo.save(dogOwner);

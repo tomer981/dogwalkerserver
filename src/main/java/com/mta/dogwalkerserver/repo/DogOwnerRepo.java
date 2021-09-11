@@ -18,6 +18,10 @@ public interface DogOwnerRepo extends JpaRepository<DogOwner,Integer> {
             "SUBSTRING(do.address_Id.geoHashLocation,1,7) IN :geoHashLocations")
     List<DogOwner> getDogOwnersInGeoHashLocations(@Param("geoHashLocations") List<String> geoHashLocations);
 
+//    @Query("SELECT driver.id AS id, COUNT(deliveryTime) AS deliveriesCount FROM Delivery WHERE driver.city = :city GROUP BY driver.id ORDER BY deliveriesCount ASC")
+//    List<DogOwner> getDogWalkerPrice();
+
+
     DogOwner findByUserName(String userName);
 
 }
