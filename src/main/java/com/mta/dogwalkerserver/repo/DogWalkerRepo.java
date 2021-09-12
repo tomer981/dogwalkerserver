@@ -19,18 +19,20 @@ import java.util.Optional;
 public interface DogWalkerRepo extends JpaRepository<DogWalker, Integer> {
     @Query(value = "SELECT dw FROM dog_walker dw WHERE " +
             "SUBSTRING(dw.address_Id.geoHashLocation,1,6) IN :geoHashLocations OR " +
-            "SUBSTRING(dw.address_Id.geoHashLocation,1,7) IN :geoHashLocations")
+            "SUBSTRING(dw.address_Id.geoHashLocation,1,7) IN :geoHashLocations OR " +
+            "SUBSTRING(dw.address_Id.geoHashLocation,1,8) IN :geoHashLocations")
     List<DogWalker> getDogWalkersInGeoHashLocations(@Param("geoHashLocations") List<String> geoHashLocations);
 
-    @Query("select d from dog_walker d order by d.hourSalary DESC")
-    List<DogWalker> getDogWalkerPrice();
+    @Query("select d from dog_walker d order by d.hourSalary")
+    List<DogWalker> findByOrderByHourSalaryAsc();
+
+
 
 
 
 
 //        @Query("SELECT driver.id AS id, COUNT(deliveryTime) AS deliveriesCount FROM Delivery WHERE driver.city = :city GROUP BY driver.id ORDER BY deliveriesCount ASC")
 //    List<DogOwner> getDogWalkerPrice();
-
 
 
     DogWalker findByUserName(String userName);

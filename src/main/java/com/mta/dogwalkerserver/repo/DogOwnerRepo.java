@@ -13,10 +13,10 @@ import java.util.Optional;
 @Repository
 @RepositoryRestResource(path = "DogOwners")
 public interface DogOwnerRepo extends JpaRepository<DogOwner,Integer> {
-    @Query(value = "SELECT do FROM dog_owner do WHERE " +
-            "SUBSTRING(do.address_Id.geoHashLocation,1,6) IN :geoHashLocations OR " +
-            "SUBSTRING(do.address_Id.geoHashLocation,1,7) IN :geoHashLocations")
-    List<DogOwner> getDogOwnersInGeoHashLocations(@Param("geoHashLocations") List<String> geoHashLocations);
+//    @Query(value = "SELECT do FROM dog_owner do WHERE " +
+//            "SUBSTRING(do.address_Id.geoHashLocation,1,6) IN :geoHashLocations OR " +
+//            "SUBSTRING(do.address_Id.geoHashLocation,1,7) IN :geoHashLocations")
+//    List<DogOwner> getDogOwnersInGeoHashLocations(@Param("geoHashLocations") List<String> geoHashLocations);
 
 //    @Query("SELECT driver.id AS id, COUNT(deliveryTime) AS deliveriesCount FROM Delivery WHERE driver.city = :city GROUP BY driver.id ORDER BY deliveriesCount ASC")
 //    List<DogOwner> getDogWalkerPrice();

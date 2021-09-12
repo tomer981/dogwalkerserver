@@ -1,5 +1,9 @@
 package com.mta.dogwalkerserver.controller;
 
+import ch.hsr.geohash.GeoHash;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.mta.dogwalkerserver.models.*;
 import com.mta.dogwalkerserver.repo.DogOwnerRepo;
 
@@ -8,15 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+
 import java.util.*;
 
 @RequestMapping("/api/DogOwner")
 @RestController
 public class DogOwnerController {
-
+//GeoHash
     @Autowired
     private DogOwnerRepo dogOwnerRepo;
 
@@ -42,14 +45,14 @@ public class DogOwnerController {
 
 
     @GetMapping(value = "/contact/id/{id}")
-    public Set<DogWalker> getContact(@PathVariable int id){
+    public Set<DogWalker> getContact(@PathVariable int id) {
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
         return dogOwner.getContact();
     }
 
 
     @GetMapping(value = "/getDogByDogOwner/id/{id}")
-    public Dog getDog(@PathVariable int id){
+    public Dog getDog(@PathVariable int id) {
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
         return dogOwner.getDog();
     }
@@ -63,7 +66,6 @@ public class DogOwnerController {
 
         return image;
     }
-
 
 
     @PostMapping("/uploadImage/id/{id}")
@@ -109,14 +111,12 @@ public class DogOwnerController {
     }
 
 
-
     @PostMapping(value = "/save")
     public DogOwner saveDogOwner(@RequestBody DogOwner dogOwner) throws Exception {
 
         DogOwner dogOwnercheck = dogOwnerRepo.findByUserName(dogOwner.getUserName());
         DogWalker dogWalkercheck = dogWalkerRepo.findByUserName(dogOwner.getUserName());
-        if(dogOwnercheck != null || dogWalkercheck != null)
-        {
+        if (dogOwnercheck != null || dogWalkercheck != null) {
             Exception excpt = new Exception("already have a user with this username! please choose a unique username");
             throw excpt;
         }
@@ -134,18 +134,16 @@ public class DogOwnerController {
     }
 
 
-
     @DeleteMapping(value = "/id/{id}")
-    public String deleteDogOwner(@PathVariable int id){
+    public String deleteDogOwner(@PathVariable int id) {
         DogOwner dogOwner = dogOwnerRepo.findById(id).get();
         dogOwnerRepo.delete(dogOwner);
         return "deleted " + id;
     }
 
 
-
     @PutMapping(value = "/update/id/{id}")
-    public DogOwner updateUser(@PathVariable int id,@RequestBody DogOwner dogOwner) throws Exception {
+    public DogOwner updateUser(@PathVariable int id, @RequestBody DogOwner dogOwner) throws Exception {
 
         DogOwner updateDogOwner = dogOwnerRepo.findById(id).get();
         String updatedDogOwnerUserName = updateDogOwner.getUserName();
@@ -155,13 +153,12 @@ public class DogOwnerController {
 
 
         if (dogOwnercheck != null || dogWalkercheck != null) {
-            if (dogOwnercheck != null){
-                if(dogOwnercheck.getId() != updateDogOwner.getId()) {
+            if (dogOwnercheck != null) {
+                if (dogOwnercheck.getId() != updateDogOwner.getId()) {
                     Exception excpt = new Exception("already have a user with this username! please choose a unique username");
                     throw excpt;
                 }
-            }
-            else if (dogWalkercheck != null){
+            } else if (dogWalkercheck != null) {
                 Exception excpt = new Exception("already have a user with this username! please choose a unique username");
                 throw excpt;
             }
@@ -186,12 +183,72 @@ public class DogOwnerController {
     }
 
 
-    @PostMapping(path = "/DogOwnersAroundMe")
-    public List<DogOwner> findDogWalkerAroundMe(@RequestBody LinkedHashMap payload) {
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
 
-        List<String> geoHashLocations = (List<String>) payload.getOrDefault("geoHashLocations", null);
-        List<DogOwner> dogOwner = dogOwnerRepo.getDogOwnersInGeoHashLocations(geoHashLocations);
-
-        return dogOwner;
+        return (dist);
     }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    /*::  This function converts radians to decimal degrees             :*/
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
+
+
+    @PostMapping(path = "/DogWalkersAroundMe/id/{id}")
+    public String findDogWalkerAroundMe(@RequestBody LinkedHashMap payload, @PathVariable int id) {
+        GeoHash dogOwnerGeoHash = GeoHash.fromGeohashString(dogOwnerRepo.findById(id).get().getAddress_Id().getGeoHashLocation());
+        List<String> geoHashLocations = (List<String>) payload.getOrDefault("geoHashLocations", null);
+        List<DogWalker> dogWalkers = dogWalkerRepo.getDogWalkersInGeoHashLocations(geoHashLocations);
+
+        Map<DogWalker, Double> dogWalkersGeohash = new HashMap<>();
+
+        for (DogWalker dogWalker : dogWalkers) {
+            GeoHash dogWalkerGeoHash = GeoHash.fromGeohashString(dogWalker.getAddress_Id().getGeoHashLocation());
+            Double distance = distance(dogWalkerGeoHash.getPoint().getLatitude(), dogWalkerGeoHash.getPoint().getLongitude(), dogOwnerGeoHash.getPoint().getLatitude(), dogOwnerGeoHash.getPoint().getLatitude());
+            dogWalkersGeohash.put(dogWalker, distance);
+        }
+
+        List<Map.Entry<DogWalker, Double>> list = new LinkedList<Map.Entry<DogWalker, Double>>(dogWalkersGeohash.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<DogWalker, Double>>() {
+            public int compare(Map.Entry<DogWalker, Double> o1, Map.Entry<DogWalker, Double> o2) {
+                return (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+
+        Map<DogWalker, Double> temp = new LinkedHashMap<DogWalker, Double>();
+        for (Map.Entry<DogWalker, Double> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+
+        Gson gson = new Gson();
+        JsonArray back = new JsonArray();
+
+        for (Map.Entry<DogWalker, Double> entry : temp.entrySet()) {
+            JsonObject info = new JsonObject();
+            info.addProperty("dogWalker", gson.toJson(entry.getKey()));
+            info.addProperty("distance", gson.toJson(entry.getValue()));
+            back.add(info);
+        }
+
+        return back.toString();
+    }
+
+    @GetMapping(path = "/getDogWalkerByPrice")
+    public List<DogWalker> getDogWalkerByPrice() {
+        return dogWalkerRepo.findByOrderByHourSalaryAsc();
+    }
+
+
 }

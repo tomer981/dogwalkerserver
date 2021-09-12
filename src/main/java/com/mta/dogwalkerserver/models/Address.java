@@ -2,8 +2,7 @@ package com.mta.dogwalkerserver.models;
 
 //https://stackoverflow.com/questions/15786129/converting-java-objects-to-json-with-jackson
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.xiaoleilu.hutool.geo.GeoHash;
+//import com.xiaoleilu.hutool.geo.GeoHash;
 
 import javax.persistence.*;
 
@@ -32,7 +31,10 @@ public class Address {
     @Column(name = "GEO_HASH_LOCATION")
     private String geoHashLocation;
 
-    //    @Column(name = "GEO_HASH_LOCATION")
+
+
+
+//    @Column(name = "GEO_HASH_LOCATION")
 //    @Formula("address_Id.getGeoHashLocation()")
 //    private String geoHashLocation;
 
@@ -79,7 +81,12 @@ public class Address {
     public void setZipCode(int zipCode) {
         this.zipCode = zipCode;
     }
-
+    public int getAddress_Id() {
+        return address_Id;
+    }
+    public void setAddress_Id(int address_Id) {
+        this.address_Id = address_Id;
+    }
 
 
     @Override

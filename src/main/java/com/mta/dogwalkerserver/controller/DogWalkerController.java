@@ -122,17 +122,6 @@ public class DogWalkerController {
     }
 
 
-    @PostMapping(path = "/DogWalkersAroundMe")
-    public List<DogWalker> findDogWalkersAroundMe(@RequestBody LinkedHashMap payload) {
-
-        List<String> geoHashLocations = (List<String>) payload.getOrDefault("geoHashLocations", null);
-        List<DogWalker> dogWalkers = dogWalkerRepo.getDogWalkersInGeoHashLocations(geoHashLocations);
-
-        return dogWalkers;
-    }
-
-
-
     @GetMapping(path = "/image/id/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public @ResponseBody
     byte[] downloadImage(@PathVariable int id) {
